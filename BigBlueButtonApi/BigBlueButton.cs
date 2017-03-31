@@ -8,14 +8,25 @@ namespace BigBlueButtonApi
 {
     public class BigBlueButton
     {
+        /// <summary>
+        /// Create BigBlueButton instance
+        /// </summary>
+        /// <param name="url">The api url example http://test-install.blindsidenetworks.com/bigbluebutton/api </param>
+        /// <param name="salt">Secret key</param>
         public BigBlueButton(string url, string salt)
         {
             Url = url.EndsWith("/") ? url : url + "/";
             Salt = salt;
         }
 
+        /// <summary>
+        /// Api url
+        /// </summary>
         public string Url { get; set; }
 
+        /// <summary>
+        /// Secret key
+        /// </summary>
         public string Salt { get; set; }
 
         /// <summary>
@@ -39,6 +50,7 @@ namespace BigBlueButtonApi
         /// <param name="autoStartRecording">start recording on start</param>
         /// <param name="voiceBridge">voice bridge</param>
         /// <param name="welcome">welcome message</param>
+        /// <param name="logoutUrl">redirect url when logout</param>
         /// <returns></returns>
         public CreateResponse Create(string meetingId, string name, string attendeePassword, string moderatorPassword,
             bool record = true, bool allowStartStopRecording = true, bool autoStartRecording = false,
