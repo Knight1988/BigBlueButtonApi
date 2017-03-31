@@ -82,6 +82,11 @@ namespace BigBlueButtonApi
             return Url + "join?" + qb;
         }
 
+        /// <summary>
+        /// Check if the meeting is running
+        /// </summary>
+        /// <param name="meetingId"></param>
+        /// <returns></returns>
         public Response IsMeetingRunning(string meetingId)
         {
             var qb = new QueryStringBuilder
@@ -90,6 +95,23 @@ namespace BigBlueButtonApi
             };
             qb.Add("checksum", GenerateChecksum("isMeetingRunning", qb.ToString()));
             return Response.Parse<CreateResponse>(HttpGet(Url + "isMeetingRunning?" + qb));
+        }
+
+        /// <summary>
+        /// Get the meeting info
+        /// </summary>
+        /// <param name="meetingId"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public MeetingInfoResponse GetMeetingInfo(string meetingId, string password)
+        {
+            var qb = new QueryStringBuilder
+            {
+                {"meetingID", meetingId},
+                {"password", password},
+            };
+            qb.Add("checksum", GenerateChecksum("getMeetingInfo", qb.ToString()));
+            return Response.Parse<MeetingInfoResponse>(HttpGet(Url + "getMeetingInfo?" + qb));
         }
 
         private static string HttpGet(string url)

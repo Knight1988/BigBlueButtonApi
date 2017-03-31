@@ -47,8 +47,6 @@ namespace BigBlueButtonApi.Tests
             response.Should().Be("http://test-install.blindsidenetworks.com/bigbluebutton/api/join?fullName=User+7561069&meetingID=random-606821&password=mp&redirect=true&checksum=8691f92d8e4bb148adab2ebe73fcdb1de9af8535");
         }
 
-
-
         [Test]
         public void IsMeetingRunningTest()
         {
@@ -59,6 +57,20 @@ namespace BigBlueButtonApi.Tests
 
             /* Assert */
             response.ReturnCode.Should().Be("SUCCESS");
+        }
+
+        [Test]
+        public void GetMeetingInfoTest()
+        {
+            /* Arrange */
+
+            /* Act */
+            _bbb.Create("Test", "Test", "ap", "mp");
+            var response = _bbb.GetMeetingInfo("Test", "mp");
+
+            /* Assert */
+            response.ReturnCode.Should().Be("SUCCESS");
+            response.MeetingId.Should().Be("Test");
         }
     }
 }
