@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>BigBlueButtonApi</id>
+    <version>1.0.0</version>
+    <authors>Squall Leonhart</authors>
+    <owners>Squall Leonhart</owners>
+    <projectUrl>https://github.com/Knight1988/BigBlueButtonApi</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>BigBlueButtonApi for .NET</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>BigBlueButton</tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="3.5.8" />
+    </dependencies>
+  </metadata>
+</package>
