@@ -1,0 +1,12 @@
+version: 1.0.0.{build}
+before_build:
+- cmd: nuget restore
+build:
+  parallel: true
+  verbosity: minimal
+deploy:
+  provider: NuGet
+  api_key:
+    secure: bd95bc61-a145-4765-a48c-d01e9cd791c2
+  skip_symbols: false
+  artifact: /.*\.nupkg/
