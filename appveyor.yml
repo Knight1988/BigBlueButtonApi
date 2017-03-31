@@ -1,11 +1,13 @@
-version: 1.0.0.{build}
+version: 1.0.1.{build}
 before_build:
 - cmd: nuget restore
 build:
   parallel: true
   verbosity: minimal
+after_build:
+- cmd: nuget pack BigBlueButtonApi\BigBlueButtonApi.csproj -OutputDirectory BigBlueButtonApi
 artifacts:
-- path: /*.nupkg/
+- path: /BigBlueButtonApi\**\*.nupkg/
   name: Nuget
 deploy:
 - provider: NuGet

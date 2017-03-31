@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>BigBlueButtonApi</id>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <authors>Squall Leonhart</authors>
     <owners>Squall Leonhart</owners>
     <projectUrl>https://github.com/Knight1988/BigBlueButtonApi</projectUrl>
