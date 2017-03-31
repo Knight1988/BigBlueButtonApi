@@ -29,10 +29,6 @@ namespace BigBlueButtonApi.Responses
 
         private string _meetingIdField;
 
-        private string _messageField;
-
-        private string _messageKeyField;
-
         private string _moderatorPwField;
 
         private object _parentMeetingIdField;
@@ -121,20 +117,6 @@ namespace BigBlueButtonApi.Responses
         {
             get { return _hasBeenForciblyEndedField; }
             set { _hasBeenForciblyEndedField = value; }
-        }
-
-        /// <remarks />
-        public string MessageKey
-        {
-            get { return _messageKeyField; }
-            set { _messageKeyField = value; }
-        }
-
-        /// <remarks />
-        public string Message
-        {
-            get { return _messageField; }
-            set { _messageField = value; }
         }
     }
 }

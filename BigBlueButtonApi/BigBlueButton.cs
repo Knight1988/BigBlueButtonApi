@@ -114,6 +114,23 @@ namespace BigBlueButtonApi
             return Response.Parse<MeetingInfoResponse>(HttpGet(Url + "getMeetingInfo?" + qb));
         }
 
+        /// <summary>
+        /// End the meeting
+        /// </summary>
+        /// <param name="meetingId"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public Response End(string meetingId, string password)
+        {
+            var qb = new QueryStringBuilder
+            {
+                {"meetingID", meetingId},
+                {"password", password},
+            };
+            qb.Add("checksum", GenerateChecksum("end", qb.ToString()));
+            return Response.Parse<Response>(HttpGet(Url + "end?" + qb));
+        }
+
         private static string HttpGet(string url)
         {
             using (var wb = new WebClient())

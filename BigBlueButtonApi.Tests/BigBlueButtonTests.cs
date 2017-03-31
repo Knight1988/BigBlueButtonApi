@@ -72,5 +72,19 @@ namespace BigBlueButtonApi.Tests
             response.ReturnCode.Should().Be("SUCCESS");
             response.MeetingId.Should().Be("Test");
         }
+
+        [Test]
+        public void EndTest()
+        {
+            /* Arrange */
+
+            /* Act */
+            _bbb.Create("Test", "Test", "ap", "mp");
+            var response = _bbb.End("Test", "mp");
+
+            /* Assert */
+            response.ReturnCode.Should().Be("SUCCESS");
+            response.MessageKey.Should().Be("sentEndMeetingRequest");
+        }
     }
 }

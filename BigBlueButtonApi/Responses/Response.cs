@@ -14,14 +14,16 @@ namespace BigBlueButtonApi.Responses
     [XmlRoot(Namespace = "", IsNullable = false)]
     public class Response
     {
-        /// <remarks />
         public string ReturnCode { get; set; }
 
-        /// <remarks />
         public string Version { get; set; }
 
+        public string MessageKey { get; set; }
+
+        public string Message { get; set; }
+
         /// <summary>
-        /// Convert xml to object
+        ///     Convert xml to object
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>
@@ -32,7 +34,7 @@ namespace BigBlueButtonApi.Responses
         }
 
         /// <summary>
-        /// Convert xml to JObject
+        ///     Convert xml to JObject
         /// </summary>
         /// <param name="xml"></param>
         /// <returns></returns>

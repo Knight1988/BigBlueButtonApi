@@ -9,18 +9,9 @@ namespace BigBlueButtonApi.Responses
     [DesignerCategory("code")]
     [XmlType(AnonymousType = true)]
     [XmlRoot(Namespace = "", IsNullable = false)]
-    public class IsMeetingRunningResponse
+    public class IsMeetingRunningResponse : Response
     {
-        private string _returncodeField;
-
         private bool _runningField;
-
-        /// <remarks />
-        public string Returncode
-        {
-            get { return _returncodeField; }
-            set { _returncodeField = value; }
-        }
 
         /// <remarks />
         public bool Running

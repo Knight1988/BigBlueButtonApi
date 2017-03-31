@@ -41,10 +41,6 @@ namespace BigBlueButtonApi.Responses
 
         private string _meetingNameField;
 
-        private object _messageField;
-
-        private object _messageKeyField;
-
         private object _metadataField;
 
         private byte _moderatorCountField;
@@ -238,20 +234,6 @@ namespace BigBlueButtonApi.Responses
         {
             get { return _metadataField; }
             set { _metadataField = value; }
-        }
-
-        /// <remarks />
-        public object MessageKey
-        {
-            get { return _messageKeyField; }
-            set { _messageKeyField = value; }
-        }
-
-        /// <remarks />
-        public object Message
-        {
-            get { return _messageField; }
-            set { _messageField = value; }
         }
     }
 }
