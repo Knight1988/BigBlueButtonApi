@@ -1,4 +1,4 @@
-version: 1.0.1.{build}
+version: 1.0.2.{build}
 before_build:
 - cmd: nuget restore
 build:
@@ -16,3 +16,8 @@ deploy:
   skip_symbols: true
   on:
     branch: master
+assembly_info:
+  patch: true
+  file: AssemblyInfo.cs
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'

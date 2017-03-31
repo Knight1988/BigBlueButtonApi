@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Threading.Tasks;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace BigBlueButtonApi.Tests
@@ -57,6 +58,7 @@ namespace BigBlueButtonApi.Tests
 
             /* Assert */
             response.ReturnCode.Should().Be("SUCCESS");
+            response.Running.Should().BeFalse();
         }
 
         [Test]

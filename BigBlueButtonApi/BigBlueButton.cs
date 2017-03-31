@@ -99,14 +99,14 @@ namespace BigBlueButtonApi
         /// </summary>
         /// <param name="meetingId"></param>
         /// <returns></returns>
-        public Response IsMeetingRunning(string meetingId)
+        public IsMeetingRunningResponse IsMeetingRunning(string meetingId)
         {
             var qb = new QueryStringBuilder
             {
                 {"meetingID", meetingId}
             };
             qb.Add("checksum", GenerateChecksum("isMeetingRunning", qb.ToString()));
-            return Response.Parse<CreateResponse>(HttpGet(Url + "isMeetingRunning?" + qb));
+            return Response.Parse<IsMeetingRunningResponse>(HttpGet(Url + "isMeetingRunning?" + qb));
         }
 
         /// <summary>

@@ -1,14 +1,14 @@
-<?xml version="1.0"?>
-<package >
+﻿<?xml version="1.0"?>
+<package>
   <metadata>
     <id>BigBlueButtonApi</id>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <authors>Squall Leonhart</authors>
     <owners>Squall Leonhart</owners>
     <projectUrl>https://github.com/Knight1988/BigBlueButtonApi</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>BigBlueButtonApi for .NET</description>
-    <releaseNotes></releaseNotes>
+    <releaseNotes>fix IsMeetingRunning always false</releaseNotes>
     <copyright>Copyright 2017</copyright>
     <tags>BigBlueButton</tags>
     <dependencies>
