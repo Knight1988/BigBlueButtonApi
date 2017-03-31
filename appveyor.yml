@@ -4,9 +4,13 @@ before_build:
 build:
   parallel: true
   verbosity: minimal
+artifacts:
+- path: /*.nupkg/
+  name: Nuget
 deploy:
-  provider: NuGet
+- provider: NuGet
   api_key:
-    secure: bd95bc61-a145-4765-a48c-d01e9cd791c2
-  skip_symbols: false
-  artifact: /.*\.nupkg/
+    secure: UIcuz+2JcyyRodz5P91RvIw1ddBj4ifRrKE+Il7jc5MqOG3zCQjLwtZ6Qnchk+VK
+  skip_symbols: true
+  on:
+    branch: master
