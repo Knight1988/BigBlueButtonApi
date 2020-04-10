@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NUnit.Framework;
 
 namespace BigBlueButtonApi.Tests
@@ -11,7 +10,7 @@ namespace BigBlueButtonApi.Tests
             "8cd8ef52e8e101574e400365b55e11a6");
 
         [Test]
-        public void GetVersionTest()
+        public void BigBlueButtonTests_GetVersionTest()
         {
             /* Arrange */
 
@@ -24,7 +23,7 @@ namespace BigBlueButtonApi.Tests
         }
 
         [Test]
-        public void CreateTest()
+        public void BigBlueButtonTests_CreateTest()
         {
             /* Arrange */
 
@@ -37,7 +36,7 @@ namespace BigBlueButtonApi.Tests
         }
 
         [Test]
-        public void JoinTest()
+        public void BigBlueButtonTests_JoinTest()
         {
             /* Arrange */
 
@@ -49,7 +48,7 @@ namespace BigBlueButtonApi.Tests
         }
 
         [Test]
-        public void IsMeetingRunningTest()
+        public void BigBlueButtonTests_IsMeetingRunningTest()
         {
             /* Arrange */
 
@@ -62,7 +61,7 @@ namespace BigBlueButtonApi.Tests
         }
 
         [Test]
-        public void GetMeetingInfoTest()
+        public void BigBlueButtonTests_GetMeetingInfoTest()
         {
             /* Arrange */
 
@@ -76,7 +75,7 @@ namespace BigBlueButtonApi.Tests
         }
 
         [Test]
-        public void EndTest()
+        public void BigBlueButtonTests_EndTest()
         {
             /* Arrange */
 
@@ -87,6 +86,16 @@ namespace BigBlueButtonApi.Tests
             /* Assert */
             response.ReturnCode.Should().Be("SUCCESS");
             response.MessageKey.Should().Be("sentEndMeetingRequest");
+        }
+
+        [Test]
+        public void BigBlueButtonTests_GetMeetings()
+        {
+            _bbb.Create("Test1", "Test1", "ap", "mp");
+            _bbb.Create("Test2", "Test2", "ap", "mp");
+            var response = _bbb.GetMeetings();
+            Assert.AreEqual(response.ReturnCode, "SUCCESS");
+
         }
     }
 }
