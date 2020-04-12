@@ -2,11 +2,13 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
 using BigBlueButtonApi.Responses;
 
 namespace BigBlueButtonApi
 {
-    public class BigBlueButton
+    public class BigBlueButton : IBigBlueButton
     {
         /// <summary>
         /// Create BigBlueButton instance
@@ -156,17 +158,24 @@ namespace BigBlueButtonApi
             return Response.Parse<GetMeetingResponse>(HttpGet(Url + "getMeetings?" + qb));
         }
 
+        public GetRecordingsResponse GetRecordings(string meetingId = null)
+        {
+            var qb = new QueryStringBuilder();
+            if (!string.IsNullOrWhiteSpace(meetingId)) qb.Add("meetingId", meetingId);
+            qb.Add("checksum", GenerateChecksum("getRecordings", qb.ToString()));
+            return Response.Parse<GetRecordingsResponse>(HttpGet(Url + "getRecordings?" + qb));
+        }
         private static string HttpGet(string url)
         {
             using (var wb = new WebClient())
             {
+                Console.WriteLine(url);
                 return wb.DownloadString(url);
             }
         }
-
         private static string HttpPost(string url, string postData)
         {
-            var request = (HttpWebRequest) WebRequest.Create(url);
+            var request = (HttpWebRequest)WebRequest.Create(url);
 
             var data = Encoding.ASCII.GetBytes(postData);
 
@@ -179,7 +188,7 @@ namespace BigBlueButtonApi
                 stream.Write(data, 0, data.Length);
             }
 
-            var response = (HttpWebResponse) request.GetResponse();
+            var response = (HttpWebResponse)request.GetResponse();
             var responseStream = response.GetResponseStream();
 
             if (responseStream == null) throw new NullReferenceException("responseStream is null");

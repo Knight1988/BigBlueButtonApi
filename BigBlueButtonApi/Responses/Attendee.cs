@@ -4,82 +4,29 @@ using System.Xml.Serialization;
 
 namespace BigBlueButtonApi.Responses
 {
-    /// <remarks />
     [Serializable]
-    [DesignerCategory("code")]
-    [XmlType(AnonymousType = true)]
     public class Attendee
     {
-        private object _customdataField;
+        [XmlElement("userID")]
+        public string UserId { get; set; }
 
-        private string _fullNameField;
+        [XmlElement("fullName")]
+        public string FullName { get; set; }
 
-        private bool _hasJoinedVoiceField;
+        [XmlElement("role")]
+        public string Role { get; set; }
 
-        private bool _hasVideoField;
+        [XmlElement("isPresenter")]
+        public bool IsPresenter { get; set; }
 
-        private bool _isListeningOnlyField;
+        [XmlElement("isListeningOnly")]
+        public bool IsListeningOnly { get; set; }
 
-        private bool _isPresenterField;
-
-        private string _roleField;
-
-        private string _userIdField;
-
-        /// <remarks />
-        public string UserId
-        {
-            get { return _userIdField; }
-            set { _userIdField = value; }
-        }
-
-        /// <remarks />
-        public string FullName
-        {
-            get { return _fullNameField; }
-            set { _fullNameField = value; }
-        }
-
-        /// <remarks />
-        public string Role
-        {
-            get { return _roleField; }
-            set { _roleField = value; }
-        }
-
-        /// <remarks />
-        public bool IsPresenter
-        {
-            get { return _isPresenterField; }
-            set { _isPresenterField = value; }
-        }
-
-        /// <remarks />
-        public bool IsListeningOnly
-        {
-            get { return _isListeningOnlyField; }
-            set { _isListeningOnlyField = value; }
-        }
-
-        /// <remarks />
-        public bool HasJoinedVoice
-        {
-            get { return _hasJoinedVoiceField; }
-            set { _hasJoinedVoiceField = value; }
-        }
-
-        /// <remarks />
-        public bool HasVideo
-        {
-            get { return _hasVideoField; }
-            set { _hasVideoField = value; }
-        }
-
-        /// <remarks />
-        public object Customdata
-        {
-            get { return _customdataField; }
-            set { _customdataField = value; }
-        }
+        [XmlElement("hasJoinedVoice")]
+        public bool HasJoinedVoice { get; set; }
+        [XmlElement("hasVideo")]
+        public bool HasVideo { get; set; }
+        [XmlElement("clientType")]
+        public object CustomData { get; set; }
     }
 }
