@@ -4,119 +4,45 @@ using System.Xml.Serialization;
 
 namespace BigBlueButtonApi.Responses
 {
-    /// <remarks />
     [Serializable]
     [DesignerCategory("code")]
     [XmlType(AnonymousType = true)]
-    [XmlRoot(Namespace = "", IsNullable = false)]
+    [XmlRoot(ElementName = "response", IsNullable = false, Namespace = "")]
     public class CreateResponse : Response
     {
-        private string _attendeePwField;
+        [XmlElement("meetingID")]
+        public string MeetingId { get; set; }
 
-        private string _createDateField;
+        [XmlElement("internalMeetingID")]
+        public string InternalMeetingId { get; set; }
 
-        private ulong _createTimeField;
+        [XmlElement("parentMeetingID")]
+        public string ParentMeetingId { get; set; }
 
-        private string _dialNumberField;
+        [XmlElement("attendeePW")]
+        public string AttendeePw { get; set; }
 
-        private byte _durationField;
+        [XmlElement("moderatorPW")]
+        public string ModeratorPw { get; set; }
 
-        private bool _hasBeenForciblyEndedField;
+        [XmlElement("createTime")]
+        public ulong CreateTime { get; set; }
 
-        private bool _hasUserJoinedField;
+        [XmlElement("voiceBridge")]
+        public uint VoiceBridge { get; set; }
 
-        private string _internalMeetingIdField;
+        [XmlElement("dialNumber")]
+        public string DialNumber { get; set; }
+        [XmlElement("createDate")]
+        public string CreateDate { get; set; }
 
-        private string _meetingIdField;
+        [XmlElement("hasUserJoined")]
+        public bool HasUserJoined { get; set; }
 
-        private string _moderatorPwField;
+        [XmlElement("duration")]
+        public ulong Duration { get; set; }
 
-        private object _parentMeetingIdField;
-
-        private uint _voiceBridgeField;
-
-        /// <remarks />
-        public string MeetingId
-        {
-            get { return _meetingIdField; }
-            set { _meetingIdField = value; }
-        }
-
-        /// <remarks />
-        public string InternalMeetingId
-        {
-            get { return _internalMeetingIdField; }
-            set { _internalMeetingIdField = value; }
-        }
-
-        /// <remarks />
-        public object ParentMeetingId
-        {
-            get { return _parentMeetingIdField; }
-            set { _parentMeetingIdField = value; }
-        }
-
-        /// <remarks />
-        public string AttendeePw
-        {
-            get { return _attendeePwField; }
-            set { _attendeePwField = value; }
-        }
-
-        /// <remarks />
-        public string ModeratorPw
-        {
-            get { return _moderatorPwField; }
-            set { _moderatorPwField = value; }
-        }
-
-        /// <remarks />
-        public ulong CreateTime
-        {
-            get { return _createTimeField; }
-            set { _createTimeField = value; }
-        }
-
-        /// <remarks />
-        public uint VoiceBridge
-        {
-            get { return _voiceBridgeField; }
-            set { _voiceBridgeField = value; }
-        }
-
-        /// <remarks />
-        public string DialNumber
-        {
-            get { return _dialNumberField; }
-            set { _dialNumberField = value; }
-        }
-
-        /// <remarks />
-        public string CreateDate
-        {
-            get { return _createDateField; }
-            set { _createDateField = value; }
-        }
-
-        /// <remarks />
-        public bool HasUserJoined
-        {
-            get { return _hasUserJoinedField; }
-            set { _hasUserJoinedField = value; }
-        }
-
-        /// <remarks />
-        public byte Duration
-        {
-            get { return _durationField; }
-            set { _durationField = value; }
-        }
-
-        /// <remarks />
-        public bool HasBeenForciblyEnded
-        {
-            get { return _hasBeenForciblyEndedField; }
-            set { _hasBeenForciblyEndedField = value; }
-        }
+        [XmlElement("hasBeenForciblyEnded")]
+        public bool HasBeenForciblyEnded { get; set; }
     }
 }
