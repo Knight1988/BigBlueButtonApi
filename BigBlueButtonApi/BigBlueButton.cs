@@ -2,9 +2,14 @@
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Xml;
-using System.Xml.Serialization;
+using System.Collections.Generic;
 using BigBlueButtonApi.Responses;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using Microsoft.IdentityModel.Logging;
+using System.Runtime.CompilerServices;
+using System.Linq;
 
 namespace BigBlueButtonApi
 {
@@ -17,6 +22,8 @@ namespace BigBlueButtonApi
         /// <param name="salt">Secret key</param>
         public BigBlueButton(string url, string salt)
         {
+            if (string.IsNullOrWhiteSpace(url) || string.IsNullOrWhiteSpace(salt))
+                return;
             Url = url.EndsWith("/") ? url : url + "/";
             Salt = salt;
         }
@@ -54,9 +61,12 @@ namespace BigBlueButtonApi
         /// <param name="welcome">welcome message</param>
         /// <param name="logoutUrl">redirect url when logout</param>
         /// <returns></returns>
-        public CreateResponse Create(string meetingId, string name, string attendeePassword, string moderatorPassword,
+        public MeetingCreateResponse Create(string meetingId, string name, string attendeePassword, string moderatorPassword,
             bool record = true, bool allowStartStopRecording = true, bool autoStartRecording = false,
-            int voiceBridge = 76894, string welcome = null, string logoutUrl = null)
+            int voiceBridge = 76894, string welcome = null,
+            string logoutUrl = null,
+            string meetingEndUrl = null,
+            string recordingEndUrl = null)
         {
             var qb = new QueryStringBuilder
             {
@@ -69,10 +79,13 @@ namespace BigBlueButtonApi
                 {"autoStartRecording", autoStartRecording.ToString()},
                 {"voiceBridge", voiceBridge.ToString()},
                 {"welcome", welcome},
+                {"recordingmarks", "true"},
                 {"logoutURL", logoutUrl},
+                {"meta_endCallbackUrl", (meetingEndUrl)},
+                {"meta_bbb-recording-ready-url",(recordingEndUrl)},
             };
             qb.Add("checksum", GenerateChecksum("create", qb.ToString()));
-            return Response.Parse<CreateResponse>(HttpGet(Url + "create?" + qb));
+            return Response.Parse<MeetingCreateResponse>(HttpGet(Url + "create?" + qb));
         }
 
         /// <summary>
@@ -83,12 +96,13 @@ namespace BigBlueButtonApi
         /// <param name="password">meeting password</param>
         /// <param name="redirect"></param>
         /// <returns></returns>
-        public string Join(string meetingId, string name, string password, bool redirect = true)
+        public string Join(string meetingId, string name, string userId, string password, bool redirect = true)
         {
             var qb = new QueryStringBuilder
             {
                 {"fullName", name},
                 {"meetingID", meetingId},
+                {"userID", userId},
                 {"password", password},
                 {"redirect", redirect.ToString().ToLower()}
             };
@@ -157,14 +171,43 @@ namespace BigBlueButtonApi
             qb.Add("checksum", GenerateChecksum("getMeetings", qb.ToString()));
             return Response.Parse<GetMeetingResponse>(HttpGet(Url + "getMeetings?" + qb));
         }
-
-        public GetRecordingsResponse GetRecordings(string meetingId = null)
+        /// <summary>
+        /// Get Recordings
+        /// </summary>
+        /// <param name="meetingId"></param>
+        /// <returns>GetRecordingsResponse</returns>
+        public GetRecordingsResponse GetRecordings(string meetingId = null, string recordId = null)
         {
             var qb = new QueryStringBuilder();
-            if (!string.IsNullOrWhiteSpace(meetingId)) qb.Add("meetingId", meetingId);
+            if (!string.IsNullOrWhiteSpace(meetingId)) qb.Add("meetingID", meetingId);
+            if (!string.IsNullOrWhiteSpace(meetingId) && !string.IsNullOrWhiteSpace(recordId)) qb.Add("recordID", recordId);
             qb.Add("checksum", GenerateChecksum("getRecordings", qb.ToString()));
             return Response.Parse<GetRecordingsResponse>(HttpGet(Url + "getRecordings?" + qb));
         }
+        /// <summary>
+        /// DecodeJwtToken
+        /// </summary>
+        /// <param name="jwtEncoded"></param>
+        /// <returns>KeyValuePair<string, string></returns>
+        /// BigBlueButton meeting recording is ready event parameters signed_parameters decoder.
+        public JwtTokenResult DecodeJwtToken(string jwtEncoded)
+        {
+            var securityToken = ValidateToken(jwtEncoded);
+            if (securityToken == null)
+            {
+                return null;
+            }
+            var meetingId = securityToken.Claims.First(x => x.Type == "meeting_id")?.Value;
+            var recordid = securityToken.Claims.First(x => x.Type == "record_id")?.Value;
+            if (string.IsNullOrWhiteSpace(meetingId) || string.IsNullOrWhiteSpace(recordid))
+                return null;
+            return new JwtTokenResult
+            {
+                MeetingId = meetingId,
+                RecordId = recordid
+            };
+        }
+
         private static string HttpGet(string url)
         {
             using (var wb = new WebClient())
@@ -200,6 +243,29 @@ namespace BigBlueButtonApi
         private string GenerateChecksum(string apicallName, string parameters)
         {
             return SHA1.SHA1HashStringForUTF8String(apicallName + parameters + Salt);
+        }
+
+        private JwtSecurityToken ValidateToken(string jwtToken)
+        {
+            try
+            {
+                TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.Salt)),
+                    ValidateLifetime = false,
+                    ValidateAudience = false,
+                    ValidateIssuer = false
+                };
+                TokenValidationParameters validationParameters = tokenValidationParameters;
+                var handler = new JwtSecurityTokenHandler();
+                SecurityToken validatedToken;
+                handler.ValidateToken(jwtToken, validationParameters, out validatedToken);
+                return validatedToken as JwtSecurityToken;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

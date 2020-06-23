@@ -41,7 +41,8 @@ namespace BigBlueButtonApi.Tests
             /* Arrange */
 
             /* Act */
-            var response = _bbb.Join("random-606821", "User 7561069", "mp");
+            var userId = "3";
+            var response = _bbb.Join("random-606821", "User 7561069", userId, "mp");
 
             /* Assert */
             response.Should().Be("http://test-install.blindsidenetworks.com/bigbluebutton/api/join?fullName=User+7561069&meetingID=random-606821&password=mp&redirect=true&checksum=8691f92d8e4bb148adab2ebe73fcdb1de9af8535");
@@ -71,7 +72,7 @@ namespace BigBlueButtonApi.Tests
 
             /* Assert */
             response.ReturnCode.Should().Be("SUCCESS");
-            response.MeetingId.Should().Be("Test");
+            response.MeetingID.Should().Be("Test");
         }
 
         [Test]
@@ -95,7 +96,6 @@ namespace BigBlueButtonApi.Tests
             _bbb.Create("Test2", "Test2", "ap", "mp");
             var response = _bbb.GetMeetings();
             Assert.AreEqual(response.ReturnCode, "SUCCESS");
-
         }
     }
 }
